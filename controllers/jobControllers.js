@@ -4,8 +4,52 @@ const { Job } = require("../models/jobModel");
 // get all jobs
 const allJobs = async (req, res) => {
   try {
-    const jobs = await Job.find({});
-    res.json(jobs);
+    if (!req.query.jobType) {
+      const jobs = await Job.find({});
+      res.json({
+        count: jobs.length,
+        data: jobs,
+      });
+    }
+    if (req.query.jobType) {
+      if (req.query.jobType === "all") {
+        const jobs = await Job.find({});
+        res.json({
+          count: jobs.length,
+          data: jobs,
+        });
+      } else {
+        const jobType = req.query.jobType;
+        const jobs = await Job.find({ jobType });
+        res.json({
+          count: jobs.length,
+          data: jobs,
+        });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// all approved jobs based on category
+const approvedJobs = async (req, res) => {
+  try {
+    if (!req.query.jobType) {
+      const jobs = await Job.find({ status: "approved" });
+      res.json({
+        count: jobs.length,
+        data: jobs,
+      });
+    }
+    if (req.query.jobType) {
+      const jobType = req.query.jobType;
+      const jobs = await Job.find({ status: "approved", jobType });
+      res.json({
+        count: jobs.length,
+        data: jobs,
+      });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -60,4 +104,11 @@ const deleteJobById = async (req, res) => {
   }
 };
 
-module.exports = { postJob, allJobs, getJobById, updateJob, deleteJobById };
+module.exports = {
+  postJob,
+  allJobs,
+  approvedJobs,
+  getJobById,
+  updateJob,
+  deleteJobById,
+};
