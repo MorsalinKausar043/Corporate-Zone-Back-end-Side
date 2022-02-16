@@ -8,7 +8,8 @@ const port = process.env.PORT || 4030;
 const app = express();
 
 // all routes
-const user = require("./routes/user");
+const users = require("./routes/users");
+const jobs = require("./routes/jobs");
 
 // connect with database
 connectDB();
@@ -16,7 +17,8 @@ connectDB();
 // middlewares
 app.use(express.json());
 app.use(cors());
-app.use("/users", user);
+app.use("/users", users);
+app.use("/jobs", jobs);
 
 // error handling middleware
 const errorHandler = (err, req, res, next) => {
