@@ -31,7 +31,7 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
-  res.json("Hello this is for testing");
+  res.json("CorporateZone - where meet Professionals");
 });
 
 app.listen(port, () => {
