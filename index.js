@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { connectDB } = require("./config/connect");
 dotenv.config();
-const port = process.env.PORT || 4030;
+const port = process.env.PORT || 5000;
 
 const app = express();
 
@@ -31,7 +31,7 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 app.get("/", (req, res) => {
-  res.json("Hello this is for testing");
+  res.json("CorporateZone-where meet professionals");
 });
 
 app.listen(port, () => {
