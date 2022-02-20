@@ -12,6 +12,19 @@ const postUser = async (req, res) => {
   }
 };
 
+// crete review
+
+// const review = async (req,res) =>{
+//   try {
+//     const newReview = new newReview(req.body);
+//     const result = await newReview.save();
+//     res.json(result);
+  
+//   } catch (err) {
+//     res.status(500).json({message:err.message})
+//   }
+// }
+
 // get all users
 const allUsers = async (req, res) => {
   try {
@@ -22,4 +35,4 @@ const allUsers = async (req, res) => {
   }
 };
 
-module.exports = { postUser, allUsers };
+module.exports = { postUser, allUsers};
