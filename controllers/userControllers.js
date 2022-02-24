@@ -33,4 +33,20 @@ const postUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-module.exports = { postUser, allUsers, getUser };
+
+// update a user
+const updateUser = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const query = { email: email };
+    const updateDoc = { $set: req.body };
+    console.log(updateDoc);
+    const options = { upsert: true };
+    const result = await User.findOneAndUpdate(query, updateDoc, options);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = { postUser, allUsers, getUser, updateUser };

@@ -17,16 +17,21 @@ const userSchema = new Schema({
   photoURL: {
     type: String,
   },
+  resumeLink: String,
+  portfolio: String,
+  githubProfile: String,
+  linkedInProfile: String,
   companyWebsite: {
     type: String,
     trim: true,
   },
+  selectedSkills: Array,
   experienceInHiring: {
     type: String,
   },
   phone: {
     type: Number,
-    required: true,
+    duplicate: true,
   },
   post: {
     type: String,
