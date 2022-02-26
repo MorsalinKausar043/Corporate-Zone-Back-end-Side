@@ -10,6 +10,7 @@ const app = express();
 // all routes
 const users = require("./routes/users");
 const jobs = require("./routes/jobs");
+const appliedJobs = require("./routes/appliedJobs");
 
 // connect with database
 connectDB();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/users", users);
 app.use("/jobs", jobs);
+app.use("/appliedJobs", appliedJobs);
 
 // error handling middleware
 const errorHandler = (err, req, res, next) => {
