@@ -22,4 +22,30 @@ const allUsers = async (req, res) => {
   }
 };
 
-module.exports = { postUser, allUsers };
+// get user by id
+const getUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: id };
+    const result = await User.findOne({ query: query });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// delete users
+const deleteUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: id };
+    const result = await User.findOneAndDelete(query);
+    console.log(result)
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+module.exports = { postUser, allUsers,deleteUserById, getUserById };

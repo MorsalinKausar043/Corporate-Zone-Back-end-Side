@@ -54,6 +54,7 @@ const deleteJobById = async (req, res) => {
     const id = req.params.id;
     const query = { _id: id };
     const result = await Job.findOneAndDelete(query);
+    console.log(result)
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });

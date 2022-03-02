@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { connectDB } = require("./config/connect");
 dotenv.config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4030;
 
 const app = express();
 
@@ -12,7 +12,7 @@ const users = require("./routes/users");
 const jobs = require("./routes/jobs");
 
 // connect with database
-connectDB();
+connectDB('DB_URL');
 
 // middlewares
 app.use(express.json());
