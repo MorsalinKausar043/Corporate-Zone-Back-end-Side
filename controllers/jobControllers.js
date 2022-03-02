@@ -15,7 +15,7 @@ const allJobs = async (req, res) => {
 const getJobById = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await Job.findOne({ query: query });
     res.json(result);
   } catch (err) {
@@ -38,7 +38,7 @@ const postJob = async (req, res) => {
 const updateJob = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const updateDoc = { $set: req.body };
     const options = { upsert: true };
     const result = await Job.findOneAndUpdate(query, updateDoc, options);
@@ -52,7 +52,7 @@ const updateJob = async (req, res) => {
 const deleteJobById = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await Job.findOneAndDelete(query);
     console.log(result)
     res.json(result);

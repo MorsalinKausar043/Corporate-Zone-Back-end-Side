@@ -8,10 +8,11 @@ router.get("/", allUsers);
 // post a user
 router.post("/", postUser);
 
-// delete
-router.post("/:id", deleteUserById);
 
 // get user by id
 router.get("/:id", getUserById);
+
+// delete
+router.delete("/:id", deleteUserById);
 
 module.exports = router;

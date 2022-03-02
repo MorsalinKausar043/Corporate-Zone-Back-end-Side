@@ -26,7 +26,7 @@ const allUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await User.findOne({ query: query });
     res.json(result);
   } catch (err) {
@@ -38,7 +38,7 @@ const getUserById = async (req, res) => {
 const deleteUserById = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await User.findOneAndDelete(query);
     console.log(result)
     res.json(result);
