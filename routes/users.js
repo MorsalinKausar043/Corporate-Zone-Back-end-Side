@@ -5,10 +5,14 @@ const {
   allUsers,
   getUserById,
   deleteUserById,
+  getUser,
 } = require("../controllers/userControllers");
 
 // get all users
 router.get("/", allUsers);
+
+// get a user
+router.get("/:email", getUser);
 
 // post a user
 router.post("/", postUser);
