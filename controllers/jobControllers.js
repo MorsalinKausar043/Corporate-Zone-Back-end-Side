@@ -96,14 +96,14 @@ const updateJob = async (req, res) => {
 const deleteJobById = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: id };
+    const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await Job.findOneAndDelete(query);
+    console.log(result)
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 module.exports = {
   postJob,
   allJobs,

@@ -16,10 +16,10 @@ const reviewSchema = new Schema ({
         type: Number,
         required: true,
     },
-    // review: {
-    //     type: String,
-    //     required: true,
-    // },
+    review: {
+        type: String,
+        required: true,
+    },
 
 });
 

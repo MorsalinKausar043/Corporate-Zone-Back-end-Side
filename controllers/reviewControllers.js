@@ -13,6 +13,34 @@ const postReview = async (req, res) =>{
     }
 };
 
+// get all review
+
+const getReview = async (req,res) =>{
+    try{
+        const reviews = await Review.find({});
+        res.json(reviews)
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
+
+// delete review by id
+
+const deleteReview = async (req,res) =>{
+    try {
+        const id = req.params.id;
+        const query = {_id : id};
+        const result = await Review.findByIdAndDelete(query)
+        res.json(result);
+    }catch{
+        res.status(500).json({error:err.message})
+    }
+}
+
+// const 
+
 module.exports = {
-    postReview
+    postReview,
+    deleteReview,
+    getReview,
 }
