@@ -12,7 +12,7 @@ const {
 // get all jobs
 router.get("/", allJobs);
 
-// get all approved jobs here
+// get all approved jobs
 router.get("/approved", approvedJobs);
 
 // get a job by _id

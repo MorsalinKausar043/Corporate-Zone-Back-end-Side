@@ -10,6 +10,9 @@ const app = express();
 // all routes
 const users = require("./routes/users");
 const jobs = require("./routes/jobs");
+const appliedJobs = require("./routes/appliedJobs");
+const chats = require("./routes/chats");
+const messages = require("./routes/messages");
 
 // connect with database
 connectDB();
@@ -19,6 +22,9 @@ app.use(express.json());
 app.use(cors());
 app.use("/users", users);
 app.use("/jobs", jobs);
+app.use("/appliedJobs", appliedJobs);
+app.use("/chats", chats);
+app.use("/messages", messages);
 
 // error handling middleware
 const errorHandler = (err, req, res, next) => {
@@ -34,6 +40,39 @@ app.get("/", (req, res) => {
   res.json("CorporateZone - where meet Professionals");
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running on port: http://localhost:${port}`);
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 6000,
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`Connected to socket.io`);
+
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User joined room", room);
+  });
+
+  socket.on("new message", (newMessageReceived) => {
+    var chat = newMessageReceived.chat;
+
+    if (!chat.users) return console.log("chat.users not defined");
+
+    chat.users.forEach((user) => {
+      if (user._id === newMessageReceived.sender._id) return;
+
+      socket.in(user._id).emait("message received", newMessageReceived);
+    });
+  });
 });
