@@ -19,7 +19,7 @@ const postUser = async (req, res) => {
 //     const newReview = new newReview(req.body);
 //     const result = await newReview.save();
 //     res.json(result);
-  
+
 //   } catch (err) {
 //     res.status(500).json({message:err.message})
 //   }
@@ -34,8 +34,6 @@ const allUsers = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
 
 // get user by id
 const getUserById = async (req, res) => {
@@ -55,12 +53,11 @@ const deleteUserById = async (req, res) => {
     const id = req.params.id;
     const query = { _id: mongoose.Types.ObjectId(id) };
     const result = await User.findOneAndDelete(query);
-    console.log(result)
+    console.log(result);
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-
-module.exports = { postUser, allUsers, getUserById,deleteUserById };
+module.exports = { postUser, allUsers, getUserById, deleteUserById };

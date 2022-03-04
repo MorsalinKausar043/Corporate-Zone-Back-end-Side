@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { postUser, allUsers } = require("../controllers/userControllers");
+const {
+  postUser,
+  allUsers,
+  getUserById,
+  deleteUserById,
+} = require("../controllers/userControllers");
 
 // get all users
 router.get("/", allUsers);
@@ -12,12 +17,10 @@ router.post("/", postUser);
 
 // router.post("/", review)
 
-
 // get user by id
 router.get("/:id", getUserById);
 
 // delete
 router.delete("/:id", deleteUserById);
-
 
 module.exports = router;
