@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const http = require("http");
 const { connectDB } = require("./config/connect");
 dotenv.config();
 const port = process.env.PORT || 4030;
 
 const app = express();
+
+const server = http.createServer(app);
 
 // all routes
 const users = require("./routes/users");
@@ -40,10 +43,6 @@ app.get("/", (req, res) => {
   res.json("Hello this is for testing");
 });
 
-const server = app.listen(port, () => {
-  console.log(`Server running on port: http://localhost:${port}`);
-});
-
 const io = require("socket.io")(server, {
   pingTimeout: 6000,
   cors: {
@@ -75,4 +74,8 @@ io.on("connection", (socket) => {
       socket.in(user._id).emait("message received", newMessageReceived);
     });
   });
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port: http://localhost:${port}`);
 });
