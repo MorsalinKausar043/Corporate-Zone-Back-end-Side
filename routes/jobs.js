@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   postJob,
   allJobs,
+  approvedJobs,
   getJobById,
   updateJob,
   deleteJobById,
@@ -10,6 +11,9 @@ const {
 
 // get all jobs
 router.get("/", allJobs);
+
+// get all approved jobs
+router.get("/approved", approvedJobs);
 
 // get a job by _id
 router.get("/:id", getJobById);
