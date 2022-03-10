@@ -1,10 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const pdf = require('html-pdf');
 const dotenv = require("dotenv");
 const http = require("http");
 const { connectDB } = require("./config/connect");
 dotenv.config();
 const port = process.env.PORT || 4030;
+
+const pdfTemplate = require('./template');
 
 const app = express();
 
@@ -22,6 +25,7 @@ connectDB();
 
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/users", users);
 app.use("/jobs", jobs);
@@ -30,7 +34,8 @@ app.use("/chats", chats);
 app.use("/messages", messages);
 
 // error handling middleware
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) =>
+{
   if (err.headerSent) {
     return next();
   }
@@ -39,7 +44,8 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) =>
+{
   res.json("CorporateZone - where meet Professionals");
 });
 
@@ -50,25 +56,30 @@ const io = require("socket.io")(server, {
   },
 });
 
-io.on("connection", (socket) => {
+io.on("connection", (socket) =>
+{
   console.log(`Connected to socket.io`);
 
-  socket.on("setup", (userData) => {
+  socket.on("setup", (userData) =>
+  {
     socket.join(userData._id);
     socket.emit("connected");
   });
 
-  socket.on("join chat", (room) => {
+  socket.on("join chat", (room) =>
+  {
     socket.join(room);
     console.log("User joined room", room);
   });
 
-  socket.on("new message", (newMessageReceived) => {
+  socket.on("new message", (newMessageReceived) =>
+  {
     var chat = newMessageReceived.chat;
 
     if (!chat.users) return console.log("chat.users not defined");
 
-    chat.users.forEach((user) => {
+    chat.users.forEach((user) =>
+    {
       if (user._id === newMessageReceived.sender._id) return;
 
       socket.in(user._id).emait("message received", newMessageReceived);
@@ -76,6 +87,23 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(port, () => {
+app.post('/create-pdf', (req, res) =>
+{
+  pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) =>
+  {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+});
+
+app.get('/fetch-pdf', (req, res) =>
+{
+  res.sendFile(`${__dirname}/result.pdf`)
+})
+
+app.listen(port, () =>
+{
   console.log(`Server running on port: http://localhost:${port}`);
 });
