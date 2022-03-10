@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
 const io = require("socket.io")(server, {
   pingTimeout: 6000,
   cors: {
-    origin: "https://corporate-zone-clitent.vercel.app/",
+    origin: "http://localhost:4030/",
   },
 });
 
