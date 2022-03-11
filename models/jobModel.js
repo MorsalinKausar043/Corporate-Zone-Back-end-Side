@@ -74,6 +74,10 @@ const jobSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  notify: {
+    type: Boolean,
+    default: true,
+  },
   status: {
     type: String,
     default: "pending",

@@ -4,6 +4,7 @@ const {
   postJob,
   allJobs,
   approvedJobs,
+  notifyJobs,
   getJobById,
   updateJob,
   deleteJobById,
@@ -15,8 +16,11 @@ router.get("/", allJobs);
 // get all approved jobs
 router.get("/approved", approvedJobs);
 
+// get all notify jobs
+router.get("/notifyJobs", notifyJobs);
+
 // get a job by _id
-router.get("/:id", getJobById);
+router.get("/singleJob/:id", getJobById);
 
 // post a new job
 router.post("/", postJob);

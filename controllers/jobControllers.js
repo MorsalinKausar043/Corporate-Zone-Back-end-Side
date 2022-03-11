@@ -55,6 +55,16 @@ const approvedJobs = async (req, res) => {
   }
 };
 
+// all notify jobs
+const notifyJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({ notify: true });
+    res.json(jobs.reverse());
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // get a job by id
 const getJobById = async (req, res) => {
   try {
@@ -107,6 +117,7 @@ module.exports = {
   postJob,
   allJobs,
   approvedJobs,
+  notifyJobs,
   getJobById,
   updateJob,
   deleteJobById,

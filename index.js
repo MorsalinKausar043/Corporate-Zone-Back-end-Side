@@ -1,10 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const pdf = require("html-pdf");
 const dotenv = require("dotenv");
 const http = require("http");
 const { connectDB } = require("./config/connect");
 dotenv.config();
 const port = process.env.PORT || 4030;
+
+const pdfTemplate = require("./template");
 
 const app = express();
 
@@ -22,6 +25,7 @@ connectDB();
 
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/users", users);
 app.use("/jobs", jobs);
@@ -74,6 +78,19 @@ io.on("connection", (socket) => {
       socket.in(user._id).emait("message received", newMessageReceived);
     });
   });
+});
+
+app.post("/create-pdf", (req, res) => {
+  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+});
+
+app.get("/fetch-pdf", (req, res) => {
+  res.sendFile(`${__dirname}/result.pdf`);
 });
 
 app.listen(port, () => {
