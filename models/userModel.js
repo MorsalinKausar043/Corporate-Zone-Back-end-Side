@@ -32,6 +32,7 @@ const userSchema = new Schema({
   phone: {
     type: Number,
     duplicate: true,
+    unique: false,
   },
   post: {
     type: String,
