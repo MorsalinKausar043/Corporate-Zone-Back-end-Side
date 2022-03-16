@@ -34,6 +34,18 @@ const postUser = async (req, res) => {
   }
 };
 
+// delete user
+const deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: mongoose.Types.ObjectId(id) };
+    const result = await User.findOneAndDelete(query);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // update a user
 const updateUser = async (req, res) => {
   try {
@@ -49,4 +61,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { postUser, allUsers, getUser, updateUser };
+module.exports = { postUser, allUsers, getUser, deleteUser, updateUser };
