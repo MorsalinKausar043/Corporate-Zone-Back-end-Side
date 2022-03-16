@@ -30,9 +30,7 @@ const userSchema = new Schema({
     type: String,
   },
   phone: {
-    type: Number,
-    duplicate: true,
-    unique: false,
+    type: String,
   },
   post: {
     type: String,
