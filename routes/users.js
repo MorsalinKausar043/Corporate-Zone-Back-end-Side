@@ -11,10 +11,10 @@ const {
 router.get("/", allUsers);
 
 // get a user
-router.get("/:email", getUser);
+router.get("/signleUser/:email", getUser);
 
 // post a user
-router.post("/", postUser);
+router.post("/register", postUser);
 
 // put a user
 router.put("/:email", updateUser);
