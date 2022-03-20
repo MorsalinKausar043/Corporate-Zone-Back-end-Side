@@ -92,10 +92,10 @@ const postJob = async (req, res) => {
 const updateJob = async (req, res) => {
   try {
     const id = req.params.id;
-    const query = { _id: mongoose.Types.ObjectId(id) };
+    const filter = { _id: mongoose.Types.ObjectId(id) };
     const updateDoc = { $set: req.body };
     const options = { upsert: true };
-    const result = await Job.findOneAndUpdate(query, updateDoc, options);
+    const result = await Job.findOneAndUpdate(filter, updateDoc, options);
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
