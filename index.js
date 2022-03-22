@@ -11,6 +11,8 @@ const pdfTemplate = require("./template");
 
 const app = express();
 
+const stripe = require('stripe')('sk_test_51Jwcx4JFSgBrd6IPkLrdWEQaSMWHZcVthlHI7WxP3kiiuzBJpx3OGE5vG43tSWgmVeFf8it2jH2YM76jpP0Q4I1100cQEIaKK2');
+
 const server = http.createServer(app);
 
 // all routes
@@ -36,7 +38,8 @@ app.use("/messages", messages);
 app.use("/skill", skill);
 
 // error handling middleware
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) =>
+{
   if (err.headerSent) {
     return next();
   }
@@ -45,7 +48,8 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler);
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) =>
+{
   res.json("CorporateZone - where meet Professionals");
 });
 
@@ -56,25 +60,30 @@ const io = require("socket.io")(server, {
   },
 });
 
-io.on("connection", (socket) => {
+io.on("connection", (socket) =>
+{
   console.log(`Connected to socket.io`);
 
-  socket.on("setup", (userData) => {
+  socket.on("setup", (userData) =>
+  {
     socket.join(userData._id);
     socket.emit("connected");
   });
 
-  socket.on("join chat", (room) => {
+  socket.on("join chat", (room) =>
+  {
     socket.join(room);
     console.log("User joined room", room);
   });
 
-  socket.on("new message", (newMessageReceived) => {
+  socket.on("new message", (newMessageReceived) =>
+  {
     var chat = newMessageReceived.chat;
 
     if (!chat.users) return console.log("chat.users not defined");
 
-    chat.users.forEach((user) => {
+    chat.users.forEach((user) =>
+    {
       if (user._id === newMessageReceived.sender._id) return;
 
       socket.in(user._id).emait("message received", newMessageReceived);
@@ -82,8 +91,10 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/create-pdf", (req, res) => {
-  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+app.post("/create-pdf", (req, res) =>
+{
+  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) =>
+  {
     if (err) {
       res.send(Promise.reject());
     }
@@ -91,10 +102,19 @@ app.post("/create-pdf", (req, res) => {
   });
 });
 
-app.get("/fetch-pdf", (req, res) => {
+app.get("/fetch-pdf", (req, res) =>
+{
   res.sendFile(`${__dirname}/result.pdf`);
 });
 
-app.listen(port, () => {
+app.get('/order/success/:session_id', async (req, res) =>
+{
+  const session_id = req.params.session_id;
+  const session = await stripe.checkout.sessions.retrieve(session_id);
+  res.send(session);
+});
+
+app.listen(port, () =>
+{
   console.log(`Server running on port: http://localhost:${port}`);
 });
