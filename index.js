@@ -22,6 +22,7 @@ const appliedJobs = require("./routes/appliedJobs");
 const chats = require("./routes/chats");
 const messages = require("./routes/messages");
 const skill = require("./routes/skill");
+const payment = require("./routes/payment");
 
 // connect with database
 connectDB();
@@ -36,6 +37,7 @@ app.use("/appliedJobs", appliedJobs);
 app.use("/chats", chats);
 app.use("/messages", messages);
 app.use("/skill", skill);
+app.use("/payment", payment);
 
 // error handling middleware
 const errorHandler = (err, req, res, next) =>
