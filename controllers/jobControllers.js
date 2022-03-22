@@ -43,12 +43,20 @@ const approvedJobs = async (req, res) => {
       });
     }
     if (req.query.jobType) {
-      const jobType = req.query.jobType;
-      const jobs = await Job.find({ status: "approved", jobType });
-      res.json({
-        count: jobs.length,
-        data: jobs,
-      });
+      if (req.query.jobType === "all") {
+        const jobs = await Job.find({ status: "approved" });
+        res.json({
+          count: jobs.length,
+          data: jobs,
+        });
+      } else {
+        const jobType = req.query.jobType;
+        const jobs = await Job.find({ status: "approved", jobType });
+        res.json({
+          count: jobs.length,
+          data: jobs,
+        });
+      }
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
